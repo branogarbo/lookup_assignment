@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+
+<body>
+
+   <input type="text" id="addKey"><br />
+   <input type="text" id="addValue">
+   <button onclick="add()">Add</button>
+
+   <br /><br />
+
+   <input type="text" id="lookupInput">
+   <button onclick="lookup()">Search</button>
+
+   <div id="lookupResult"></div>
+
+</body>
+
+<script>
+   async function lookup() {
+      let res = await fetch("http://localhost:3000/api/lookup", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json"
+         },
+         body: JSON.stringify({
+            query: document.getElementById("lookupInput").value,
+         })
+      });
+
+      let { result } = await res.json();
+
+      document.getElementById("lookupResult").innerHTML = result;
+   }
+
+   async function add() {
+      let res = await fetch("http://localhost:3000/api/add", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json"
+         },
+         body: JSON.stringify({
+            key: document.getElementById("addKey").value,
+            value: document.getElementById("addValue").value,
+         })
+      });
+   }
+</script>
+
+</html>
